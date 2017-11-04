@@ -48,12 +48,21 @@ W = tf.Variable(tf.zeros([784, 10]))
 # biases b[10]
 b = tf.Variable(tf.zeros([10]))
 
+
+W1 = tf.Variable(tf.truncated_normal([28*28, 200] ,stddev=0.1))
+B1 = tf.Variable(tf.zeros([200]))
+
+W2 = tf.Variable(tf.truncated_normal([200, 10], stddev=0.1))
+B2 = tf.Variable(tf.zeros([10]))
+
+
 # flatten the images into a single line of pixels
 # -1 in the shape definition means "the only possible dimension that will preserve the number of elements"
 XX = tf.reshape(X, [-1, 784])
 
 # The model
-Y = tf.nn.softmax(tf.matmul(XX, W) + b)
+Y1 = tf.nn.sigmoid(tf.matmul(XX, W1) + B1)
+Y = tf.nn.softmax(tf.matmul(Y1, W2) + B2)
 
 # loss function: cross-entropy = - sum( Y_i * log(Yi) )
 #                           Y: the computed output vector
